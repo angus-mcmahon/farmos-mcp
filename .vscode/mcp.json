@@ -1,7 +1,7 @@
 {
   "servers": {
     "farmos": {
-      "command": ".venv/bin/farmos-mcp"
+      "command": "${workspaceFolder}/.venv/bin/farmos-mcp"
     }
   }
 }
