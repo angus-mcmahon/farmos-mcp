@@ -1,0 +1,7 @@
+{
+  "servers": {
+    "farmos": {
+      "command": "/home/ubuntu/Desktop/farmos-mcp/venv-dev/bin/farmos-mcp"
+    }
+  }
+}
