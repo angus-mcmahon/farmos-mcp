@@ -1,6 +1,6 @@
 # farmos-mcp
 
-A [Model Context Protocol](https://modelcontextprotocol.io) server that lets AI agents read (and, in later milestones, write) records in a [farmOS](https://farmos.org) 3.x server via its JSON:API.
+A [Model Context Protocol](https://modelcontextprotocol.io) server that lets AI agents read and write records in a [farmOS](https://farmos.org) 3.x server via its JSON:API.
 
 ## Setup overview
 
@@ -141,7 +141,7 @@ Errors from the farmOS API always lead with `HTTP <status>` so failures are
 easy to triage. Run the live suite (`.venv/bin/python test/test_live.py`) any
 time setup state changes — it pinpoints the failing layer.
 
-## Tools (M1)
+## Tools
 
 - `farmos_info` – server metadata: farm name, farmOS version, system of measurement, authenticated user
 - `farmos_list_resources` – the JSON:API resource types this server exposes
@@ -156,11 +156,11 @@ time setup state changes — it pinpoints the failing layer.
   all matching logs internally (sparse fieldsets + a record cap, default
   5000 via `FARMOS_SUMMARY_MAX_RECORDS`), so a year-scale history costs the
   same ~300-byte payload as a week — prefer this over paging raw logs for
-  "what happened in 2026?" style questions. M3 additions: `quantities: true`
-  rolls up numeric quantity values into `quantity_totals` (measure/unit/total),
-  and `interval: week|day` switches the time-series bucketing (`by_interval`).
+  "what happened in 2026?" style questions. `quantities: true` rolls up
+  numeric quantity values into `quantity_totals` (measure/unit/total), and
+  `interval: week|day` switches the time-series bucketing (`by_interval`).
 
-### Write tools (M2 + M3)
+### Write tools
 
 - `farmos_create_asset` – create an asset (plant, animal, equipment, …)
 - `farmos_create_log` – create a log (activity, observation, harvest, …) with
@@ -188,7 +188,7 @@ Safety model:
   clear message).
 - `farmos_update_entity` enforces a strict field allowlist; unknown fields are
   refused rather than silently written.
-- Field-level 400/422 errors come back as schema-driven hints (M3.4): the
+- Field-level 400/422 errors come back as schema-driven hints: the
   server's per-bundle JSON:API schema (`/api/{entity}/{bundle}/resource/schema`)
   is cached lazily, and errors read e.g. "field 'inventry' does not exist on
   asset--equipment. Did you mean 'inventory'? Fields: …" instead of raw
@@ -224,5 +224,3 @@ including the assets' computed inventory reverting. Cleanup runs in a
 `finally` block, so a mid-test failure
 still deletes what was created; anything the server refuses to delete is
 reported with UUIDs (POLLUTION WARNING).
-
-See `plan.md` for the full roadmap.
